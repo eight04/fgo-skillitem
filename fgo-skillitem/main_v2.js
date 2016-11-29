@@ -54,6 +54,10 @@ function itemClick(e) {
     $("#tabs").tabs({active: 1});
 }
 
+function servantClick(e) {
+    var id = +$(e.target).data("svtno");
+}
+
 //搜尋素材編號選單產生
 function mySelectItem(){
     var i = 0;
@@ -117,6 +121,8 @@ function itemDivCreate(itemNo){
             $("#img_itemSvtNo_" + (countSvt-100)).attr("title", "No." + (targetSvtNo+1) + " " + svtData[targetSvtNo].svtName);
             $("#img_itemSvtNo_" + (countSvt-100)).removeClass("displayNone");
             $("#img_itemSvtNo_" + (countSvt-100)).attr("style","margin-left: 20px");
+            $("#img_itemSvtNo_" + (countSvt-100)).data("svtno", targetSvtNo + 1);
+            $("#img_itemSvtNo_" + (countSvt-100)).on("click", servantClick);
         }
     }
 }
