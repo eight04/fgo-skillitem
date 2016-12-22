@@ -71,6 +71,20 @@ a img{
 	clear: left;
 }
 
+.servant-thumb {
+	width: 128px;
+}
+
+.svt-panel .servant-thumb {
+	float: left;
+	margin-right: 1em;
+}
+
+.svt-panel.hide-detail .servant-thumb {
+	width: 64px;
+	float: none;
+}
+
 .svt-panel label,
 .select-toolbar {
 	font-size: 12px;
@@ -160,7 +174,6 @@ img.item {
 }
 
 .item-search-servant .servant-thumb {
-	width: 128px;
 	margin: 0 auto;
 	display: block;
 }
@@ -174,3 +187,4 @@ img.item {
 	display: inline-table;
 	vertical-align: top;
 }
+

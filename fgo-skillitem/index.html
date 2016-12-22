@@ -142,7 +142,7 @@
   <template id="item-search-result-template">
     <div class="item-search-result">
       <div v-for="servant in servants" class="item-search-servant">
-        <img :src="'images/svtNo_' + servant.id + '.png'" :title="'No.' + servant.id + ' ' + servant.name" class="servant-thumb">
+        <servant-thumb :id="servant.id"></servant-thumb>
         <div class="table-group">
           <item-table v-if="servant.skills" type="skill" :lvs="servant.skills" :min="1" :max="10"></item-table>
           <item-table v-if="servant.ascension" type="ascension" :lvs="servant.ascension" :min="0" :max="4"></item-table>
@@ -152,7 +152,7 @@
   </template>
   
   <template id="servant-panel-template">
-    <div class="svt-panel" >
+    <div class="svt-panel" :class="{'hide-detail': servant.hide}">
       <div class="select-toolbar">
         <select v-model="servant.cls" class="select-cls">
           <option :value="-1">全職階</option>
@@ -196,13 +196,17 @@
         </label>
       </div>
       <div v-if="servant.id != -1">
-        <img :class="servant.hide ? 'imgWhenHide' : 'imgFloat'" :src="'images/svtNo_' + servant.id + '.png'" title="servant.name">
+        <servant-thumb :id="servant.id"></servant-thumb>
         <div v-if="!servant.hide">
           <item-table type="skill" :lvs="skillLvs" :min="servant.skills[servant.skillset - 1].min" :max="servant.skills[servant.skillset - 1].max" ></item-table>
           <item-table type="ascension" :lvs="ascensionLvs" :min="servant.ascension.min" :max="servant.ascension.max"></item-table>
         </div>
       </div>
     </div>
+  </template>
+  
+  <template id="servant-thumb-template">
+    <img :src="src" :title="title" class="servant-thumb" @error="error = true">
   </template>
 
   <script src="data.js"></script>

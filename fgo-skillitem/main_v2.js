@@ -52,6 +52,35 @@ var Servant = {
     }
 };
 
+Vue.component("servant-thumb", {
+    props: ["id"],
+    template: "#servant-thumb-template",
+    data: function() {
+        return {
+            error: false
+        };
+    },
+    computed: {
+        src: function() {
+            if (this.error) {
+                return "images/svtNo_error.png";
+            }
+            return 'images/svtNo_' + this.servant.id + '.png';
+        },
+        title: function() {
+            return "No." + this.servant.id + " " + this.servant.name;
+        },
+        servant: function() {
+            return servants[this.id];
+        }
+    },
+    watch: {
+        id: function() {
+            this.error = false;
+        }
+    }
+});
+
 Vue.component("summary-table", {
     props: ["servants"],
     template: "#summary-table-template",
