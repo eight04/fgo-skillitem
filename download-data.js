@@ -9,17 +9,25 @@ function contentToItemMap($) {
 		return !$(this).is("br");
 	}).each(function() {
 		var text = $(this).text().trim(),
-			i;
-		
-		i = text.lastIndexOf("QP");
-		
-		if (i == text.length - 2) {
-			map["QP"] = +text.substr(0, i).replace(/,/g, "");
-			return;
+			i, name, count;
+			
+		if ((i = text.lastIndexOf("x")) >= 0) {
+			name = text.substr(0, i);
+			count = parseInt(text.substr(i + 1), 10);
+			
+		} else if (text.endsWith("QP")) {
+			name = "QP";
+			count = parseInt(text.replace(/,/g, ""), 10);
+			
+		} else if (/^[\d,]+Q$/.test(text)) {
+			name = "QP";
+			count = parseInt(text.replace(/,/g, ""), 10);
+		} else {
+			name = text;
+			count = 1;
 		}
 		
-		var [item, count] = text.split("x");
-		map[item] = +count || 1;
+		map[name] = count;
 	});
 	
 	return map;

@@ -6,7 +6,8 @@ var fs = require("fs");
 
 var missingImage = [],
 	missingChinese = [],
-	missingItem = {};
+	missingItem = {},
+	invalidCount = [];
 
 Object.values(servants).forEach(servant => {
 	try {
@@ -25,6 +26,9 @@ Object.values(servants).forEach(servant => {
 			if (!itemImage[name]) {
 				missingItem[name] = true;
 			}
+			if (!Number.isInteger(items[name])) {
+				invalidCount.push([servant, name]);
+			}
 		}));
 	}
 });
@@ -38,5 +42,8 @@ if (missingChinese.length) {
 	console.log("Some servants are lack of chinese name!\n" + missingImage.map(s => `No.${s.id} ${s.name}`).join("\n") + "\n");
 }
 if (missingItem.length) {
-	console.log("Some items are lack of IDs!\n" + missingItem.join("\n"));
+	console.log("Some items are lack of IDs!\n" + missingItem.join("\n") + "\n");
+}
+if (invalidCount.length) {
+	console.log("Some items have invalid count!\n" + invalidCount.map(([s, n]) => `No.${s.id}: ${n}`));
 }
