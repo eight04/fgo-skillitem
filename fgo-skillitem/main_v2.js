@@ -345,8 +345,8 @@ function buildItems(opt) {
 
 function translate(servant) {
     servant = $.extend({}, servant);
-    if (svtChineseData[servant.id - 1]) {
-        servant.name = svtChineseData[servant.id - 1].name;
+    if (servant.chineseName) {
+        servant.name = servant.chineseName;
     }
     return servant;
 }

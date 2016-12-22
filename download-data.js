@@ -120,5 +120,28 @@ rp("https://www9.atwiki.jp/f_go/pages/160.html").then(function(body) {
 	});
 	
 }).then(function(out) {
+	return Promise.all([
+		rp("http://kazemai.github.io/fgo-vz/common/js/sidebar.js"),
+		rp("http://kazemai.github.io/fgo-vz/common/js/master.js"),
+		rp("http://kazemai.github.io/fgo-vz/common/js/transData.js")
+	]).then(bodies => {
+		eval(bodies.join("\n"));
+		
+		var idTable = new Map(master.mstSvt.map(s => [s.id, s.collectionNo]));
+		svtName.forEach(s => {
+			var id = idTable.get(+s[0]);
+			if (!id) {
+				return;
+			}
+			if (out[id]) {
+				out[id].chineseName = s[1];
+			}
+		});
+		
+		return out;
+	});
+	
+}).then(function(out){
 	fs.writeFileSync("fgo-skillitem/data.js", "servants = " + JSON.stringify(out, null, "\t"));
 });
+
