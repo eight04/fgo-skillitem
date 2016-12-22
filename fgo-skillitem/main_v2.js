@@ -329,14 +329,16 @@ new Vue({
 });
 
 function buildItems(opt) {
-    var out = [];
+    var out = [], map = {};
     objectEntries(itemImage).forEach(function(item) {
         var o = {
             id: item[1],
             name: item[0]
         };
         if (o.name == "QP" && opt.noQP) return;
+        if (map[o.id]) return;
         out.push(o);
+        map[o.id] = true;
     });
     return out;
 }
