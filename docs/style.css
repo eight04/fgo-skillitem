@@ -1,0 +1,190 @@
+html, body {
+  height: 100%;
+  margin: 5px;
+  padding: 0;
+  min-width: 900px;
+}
+
+h1 {
+    margin: 5px;
+    border-bottom: 3px solid #cc9900;
+    color: #996600;
+    font-size: 30px;
+}
+table, th , td  {
+    border: 1px solid grey;
+    border-collapse: collapse;
+    padding: 5px;
+    text-align: center;
+    vertical-align:middle;
+    margin-top:10px;
+    margin-bottom: :30px;
+}
+table tr:nth-child(odd)	{
+    background-color: #f1f1f1;
+    text-align: center;
+    vertical-align:middle;
+}
+table tr:nth-child(even) {
+    background-color: #ffffff;
+    text-align: center;
+    vertical-align:middle;
+}
+
+.imgFloat{
+  float: left;
+  margin-right: 15px;
+  width: 128px;
+}
+.imgWhenHide{
+  width: 64px;
+}
+
+.imgItemFloat{
+  float: left;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  width: 45px;
+}
+
+.whiteCover{
+  opacity:0.25;
+  -mox-opacity:0.25;
+  filter:alpha(opacity=25);
+}
+
+
+a:hover img{
+  opacity:0;
+  -mox-opacity:0;
+  filter:alpha(opacity=0);
+}
+
+a img{
+  opacity:1;
+  -mox-opacity:1;
+  filter:alpha(opacity=1);
+}
+
+.svt-panel {
+	margin-bottom: 15px;
+	clear: left;
+}
+
+.servant-thumb {
+	width: 128px;
+}
+
+.svt-panel .servant-thumb {
+	float: left;
+	margin-right: 1em;
+}
+
+.svt-panel.hide-detail .servant-thumb {
+	width: 64px;
+	float: none;
+}
+
+.svt-panel label,
+.select-toolbar {
+	font-size: 12px;
+}
+
+.select-toolbar img {
+	width: 16px;
+}
+
+img.item {
+	width: 50px;
+}
+
+.container {
+	min-width: 900px;
+	font-size: 15px;
+}
+
+.container::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+#maxSvtNum {
+	width: 125px;
+	margin: 0 50px 0 15px;
+}
+
+.use-chinese {
+	margin: 0 2em 0 6.5em;
+}
+
+#summary-table {
+	position: fixed;
+	right: 80px;
+	top: 100px;
+	z-index: 5;
+	cursor: move;
+}
+
+.select-cls {
+	width: 100px;
+}
+
+.select-servant {
+	width: 200px;
+}
+
+#_leftSide {
+	margin: 1em 0;
+}
+
+.select-toolbar img {
+	vertical-align: middle;
+	margin: 0 0.2em;
+}
+
+.select-toolbar label {
+	margin: 0 0.5em;
+}
+
+.select-item {
+	width: 250px;
+}
+
+.item-thumb-wrap {
+	max-width: 770px;
+	margin: 1em 0;
+}
+
+.item-thumb-wrap::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.item-search-result {
+	display: flex;
+	flex-wrap: wrap;
+	font-size: 15px;
+	margin-left: -15px;
+}
+
+.item-search-servant {
+	margin: 15px 0 0 15px;
+}
+
+.item-search-servant .servant-thumb {
+	margin: 0 auto;
+	display: block;
+}
+
+.table-group {
+	white-space: nowrap;
+	text-align: center;
+}
+
+.table-group table {
+	display: inline-table;
+	vertical-align: top;
+}
+

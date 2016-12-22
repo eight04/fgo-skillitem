@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>FGO SkillItem</title>
+    <link rel="shortcut icon" href="icon.ico" />
+    <link rel="stylesheet" href="jquery-ui.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="jquery-2.2.4.min.js"></script>
+    <script src="jquery-ui.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div style="height:80%; display:inline">
+    <img src="images/fgo_logo.png" style="float:left; width:165px; margin-right:20px">
+    <h1>Fate/Grand Order <br>
+        サーヴァントスキル 強化素材
+    </h1>
+
+    <div id="tabs"  style="min-width: 665px;">
+      <ul>
+        <li><a href="#tabs-1">指定英霊</a></li>
+        <li><a href="#tabs-2">指定素材</a></li>
+      </ul>
+      <div id="tabs-1">
+        <div class="container">
+          <div id="top_div">
+            <label>
+              育成英靈數：
+              <select name="maxSvtNum" id="maxSvtNum" v-model="servantCount">
+                <option v-for="i in 10" :value="i">{{i}}</option>
+              </select>
+            </label>
+            <input type="button" value="清除" @click="reset">
+            <label class="use-chinese">
+              <input type="checkbox" v-model="chinese">
+              英霊選單中文化
+            </label>
+            <label>
+              <input type="checkbox" v-model="summary">
+              顯示總和
+            </label>
+          </div>
+
+          <div id="_leftSide">
+            <servant-panel v-for="servant in servants" :servant="servant" :servants="servantList"></servant-panel>
+          </div>
+          
+          <div class="tab1-bottom-toolbar">
+            <button @click="addServant">增加空格</button>
+          </div>
+
+          <div id="summary-table" v-show="summary">
+            <summary-table :servants="servants"></summary-table>
+          </div>
+        </div>
+      </div>
+      <div id="tabs-2">
+        <div class="select-toolbar">
+          <select class="select-item" v-model="selected">
+            <option :value="-1">請選擇</option>
+            <option v-for="item in items" :value="item.id">{{item.name}}</option>
+          </select>
+          <label>
+            <input type="checkbox" v-model="skill">
+            技能素材
+          </label>
+          <label>
+            <input type="checkbox" v-model="ascension">
+            靈基素材
+          </label>
+        </div>
+
+        <div class="item-thumb-wrap">
+          <img v-for="item in items" class="imgItemFloat" :class="{whiteCover: item.id != selected}" :src="'images/S_' + item.id + '.png'" :title="item.name" @click="selected = item.id">
+        </div>
+        
+        <item-search-result :item-id="selected" :skill="skill" :ascension="ascension"></item-search-result>
+
+        <a href="#" style="display: block; position: relative; width: 47px; height: 47px;">
+          <img  src="images/btn_gotop_off.jpg" style=" display: inline; position: fixed; right: 5%; bottom: 5%; z-index:5; ">
+          <img src="images/btn_gotop_on.jpg" style="opacity: 0.8; display: inline; position: fixed; right: 5%; bottom: 5%;">
+        </a>
+      </div>
+    </div>
+  </div>
+    
+  <div style="position: absolute; top: 35px; right: 15px;font-size: 12px;">
+    英霊画像出典：<a href="https://kazemai.github.io/fgo-vz/" >Fate/GO 茹西教王的理想鄉</a> </br>
+    英霊名翻訳出典：<a href="https://kazemai.github.io/fgo-vz/" >Fate/GO 茹西教王的理想鄉</a> </br>
+    参考資料：<a href="https://www9.atwiki.jp/f_go/pages/543.html" >Fate/Grand Order @wiki 【FGO】</a>
+  </div>
+    
+  <template id="item-table-template">
+    <table class="item-table">
+      <tbody>
+        <tr>
+          <td v-for="lv in lvs" :class="lv.level < min || lv.level >= max ? 'whiteCover' : ''">{{lvName}} {{lv.level}} → {{lv.level + 1}}</td>
+        </tr>
+        <tr v-for="i in itemCount">
+          <td v-for="lv in lvs" :class="lv.level < min || lv.level >= max ? 'whiteCover' : ''">
+            <div v-if="lv.items[i - 1]">
+              <img :src="'images/S_' + lv.items[i - 1].id + '.png'" :title="lv.items[i - 1].name" class="item">
+              <br>
+              x {{lv.items[i - 1].count | thousandComma}}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </template>
+  
+  <template id="summary-table-template">
+    <table><tbody>
+      <tr><td colspan="3">
+        <img src="images/S_QP.png" title="QP" class="item">
+          <br>
+          x {{QP | thousandComma}}
+      </td></tr>
+      <tr v-for="row in rows">
+        <td v-for="item in row">
+          <div v-if="item">
+            <img :src="'images/S_' + item.id + '.png'" :title="item.name" class="item">
+              <br>
+              x {{item.count | thousandComma}}
+          </div>
+        </td>
+      </tr>
+    </tbody></table>
+  </template>
+  
+  <template id="item-search-result-template">
+    <div class="item-search-result">
+      <div v-for="servant in servants" class="item-search-servant">
+        <servant-thumb :id="servant.id"></servant-thumb>
+        <div class="table-group">
+          <item-table v-if="servant.skills" type="skill" :lvs="servant.skills" :min="1" :max="10"></item-table>
+          <item-table v-if="servant.ascension" type="ascension" :lvs="servant.ascension" :min="0" :max="4"></item-table>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <template id="servant-panel-template">
+    <div class="svt-panel" :class="{'hide-detail': servant.hide}">
+      <div class="select-toolbar">
+        <select v-model="servant.cls" class="select-cls">
+          <option :value="-1">全職階</option>
+          <option v-for="cls in clses" :value="cls[0]">{{cls}}</option>
+        </select>
+        <select v-model="servant.id" class="select-servant">
+          <option :value="-1">請選擇</option>
+          <option v-for="servant in filteredServants" :value="servant.id">No.{{servant.id}} {{servant.name}}</option>
+        </select>
+        <img v-for="i in 3"
+          :src="'images/btn_dig_' + i + '.png'"
+          :class="{whiteCover: servant.skillset != i}"
+          @click="servant.skillset = i">
+        <label>
+          現在Skill：
+          <select v-model="servant.skills[servant.skillset - 1].min">
+            <option v-for="i in 10" :value="i">{{i}}</option>
+          </select>
+        </label>
+        <label>
+          目標Skill：
+          <select v-model="servant.skills[servant.skillset - 1].max">
+            <option v-for="i in 10" :value="i">{{i}}</option>
+          </select>
+        </label>
+        <label>
+          現在靈基︰
+          <select v-model="servant.ascension.min">
+            <option v-for="i in 5" :value="i - 1">{{i - 1}}</option>
+          </select>
+        </label>
+        <label>
+          目標靈基︰
+          <select v-model="servant.ascension.max">
+            <option v-for="i in 5" :value="i - 1">{{i - 1}}</option>
+          </select>
+        </label>
+        <label>
+          <input type="checkbox" v-model="servant.hide">
+          隱藏
+        </label>
+      </div>
+      <div v-if="servant.id != -1">
+        <servant-thumb :id="servant.id"></servant-thumb>
+        <div v-if="!servant.hide">
+          <item-table type="skill" :lvs="skillLvs" :min="servant.skills[servant.skillset - 1].min" :max="servant.skills[servant.skillset - 1].max" ></item-table>
+          <item-table type="ascension" :lvs="ascensionLvs" :min="servant.ascension.min" :max="servant.ascension.max"></item-table>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <template id="servant-thumb-template">
+    <img :src="src" :title="title" class="servant-thumb" @error="error = true">
+  </template>
+
+  <script src="data.js"></script>
+  <script src="data-item.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

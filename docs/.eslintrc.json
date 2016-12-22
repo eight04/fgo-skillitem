@@ -1,0 +1,21 @@
+{
+    "env": {
+        "browser": true
+    },
+    "extends": "eslint:recommended",
+    "globals": {
+        "$": false,
+        "itemData": false,
+        "svtData": false,
+        "svtChineseData": false,
+        "itemImage": false,
+        "ascension": false,
+        "Vue": false,
+        "servants": false
+    },
+    "rules": {
+        "no-unused-vars": ["error", {"vars": "local", "args": "none"}],
+        "block-scoped-var": "error",
+        "no-console": ["error", {"allow": ["error"]}]
+    }
+}
