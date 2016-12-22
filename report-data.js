@@ -1,6 +1,5 @@
 require("./fgo-skillitem/data");
 require("./fgo-skillitem/data-item");
-require("./fgo-skillitem/chinesedata");
 
 var fs = require("fs");
 
@@ -16,7 +15,7 @@ Object.values(servants).forEach(servant => {
 		missingImage.push(servant);
 	}
 	
-	if (!svtChineseData[servant.id - 1]) {
+	if (!servant.chineseName) {
 		missingChinese.push(servant);
 	}
 	
