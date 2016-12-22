@@ -27,6 +27,10 @@ function contentToItemMap($) {
 			count = 1;
 		}
 		
+		if (name == "ﾎﾑﾝｸｽﾙﾍﾞﾋﾞｰ") {
+			name = "ﾎﾑﾝｸﾙｽﾍﾞﾋﾞｰ";
+		}
+		
 		map[name] = count;
 	});
 	
