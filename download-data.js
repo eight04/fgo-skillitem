@@ -142,6 +142,6 @@ rp("https://www9.atwiki.jp/f_go/pages/160.html").then(function(body) {
 	});
 	
 }).then(function(out){
-	fs.writeFileSync("fgo-skillitem/data.js", "servants = " + JSON.stringify(out, null, "\t"));
+	fs.writeFileSync("docs/data.js", "servants = " + JSON.stringify(out, null, "\t"));
 });
 

@@ -1,5 +1,8 @@
-require("./fgo-skillitem/data");
-require("./fgo-skillitem/data-item");
+var root = "./docs",
+	imageRoot = `${root}/images`;
+
+require(`${root}/data`);
+require(`${root}/data-item`);
 
 var fs = require("fs");
 
@@ -10,7 +13,7 @@ var missingImage = [],
 
 Object.values(servants).forEach(servant => {
 	try {
-		fs.accessSync("fgo-skillitem/images/svtNo_" + servant.id + ".png");
+		fs.accessSync(`${imageRoot}/svtNo_${servant.id}.png`);
 	} catch (err) {
 		missingImage.push(servant);
 	}
